@@ -1,0 +1,8 @@
+1. build_toolchain.sh
+   It is used to build nds32 toolchain. 
+   Generated toolchain is put in toolchain folder
+
+2. build_rootfs.sh:
+   It is used to create nds32 rootfs.
+   Busybox is auto-generated in the procedure.
+   Generated rootfs is put in rootfs/disk folder
