@@ -21,7 +21,6 @@ addons:
     - python-virtualenv
     - swig
     - libpython-dev
-    - gcc-powerpc-linux-gnu
     - iasl
     - grub-efi-ia32-bin
     - rpm2cpio
