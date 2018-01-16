@@ -1,0 +1,58 @@
+# Copyright Roger Meier <r.meier@siemens.com>
+# SPDX-License-Identifier:	GPL-2.0+
+
+# build nds32-toolchain on Travis CI - https://travis-ci.org/
+
+sudo: required
+dist: trusty
+
+language: c
+
+addons:
+  apt:
+    packages:
+    - cppcheck
+    - sloccount
+    - sparse
+    - bc
+    - build-essential
+    - libsdl1.2-dev
+    - python
+    - python-virtualenv
+    - swig
+    - libpython-dev
+    - gcc-powerpc-linux-gnu
+    - iasl
+    - grub-efi-ia32-bin
+    - rpm2cpio
+    - wget
+    - device-tree-compiler
+
+install:
+ # Clone uboot-test-hooks
+ - echo "Start running"
+
+env:
+  global:
+    - PATH=/usr/bin:/bin
+
+before_script:
+  # install toolchains based on TOOLCHAIN} variable
+ - echo "before_script"
+
+script:
+ # Comments must be outside the command strings below, or the Travis parser
+ # will get confused.
+ #
+ # Exit code 129 means warnings only.
+ - echo "script"
+ - sh -x ./build_toolchain.sh
+
+matrix:
+  include:
+  # we need to build by vendor due to 50min time limit for builds
+  # each env setting here is a dedicated build
+    - env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+# TODO make it perfect ;-r
