@@ -107,6 +107,11 @@ build_bootstrap_gcc ()
 	CXXFLAGS_FOR_TARGET="-O2 -g" \
 	LDFLAGS_FOR_TARGET=
 	
+	if [ ! -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
+		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
+		sudo cp crtbeginT.o crtbeginT.orig.o
+		sudo cp crtbeginS.o crtbeginT.o
+	fi
 	CFLAGS="-O0 -g3" CXXFLAGS="-O0 -g3" \
 	make -j8 all-gcc
 	
@@ -118,6 +123,11 @@ build_bootstrap_gcc ()
 	make unwind.h
 	make install-unwind_h
 
+	if [ ! -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
+		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
+		sudo cp crtbeginT.orig.o crtbeginT.o
+		sudo rm crtbeginT.orig.o
+	fi
 	cd $work_folder
 }
 #---------
