@@ -21,7 +21,7 @@ src_clone ()
 					-b nds32-6.3.0-open gcc-6.3.0
 	git clone https://github.com/andestech/glibc.git \
 					-b nds32-glibc-2.25 glibc-2.25
-	git clone https://github.com/andestech/linux.git -b nds32-4.14-rc8-v2
+	git clone https://github.com/andestech/linux.git -b nds32-4.14-rc8-v7
 	
 	#Generate host-tool
 	cd gcc-6.3.0
