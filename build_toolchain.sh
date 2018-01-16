@@ -266,10 +266,10 @@ build_glibc ()
 	cd "$build_folder"/glibc
 
 	CFLAGS="-O0 -g3" CXXFLAGS="-O0 -g3" \
-	PATH=$toolchain_folder/bin:$PATH \
+	CROSS_COMPILE=nds32le-linux- ARCH=nds32 PATH=$toolchain_folder/bin:$PATH \
 	make -j8
 	
-	PATH=$toolchain_folder/bin:$PATH \
+	CROSS_COMPILE=nds32le-linux- ARCH=nds32 PATH=$toolchain_folder/bin:$PATH \
 	make install install_root=$toolchain_folder/nds32le-linux/sysroot
 		
 	cd $work_folder
