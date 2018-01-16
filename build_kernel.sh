@@ -12,6 +12,7 @@ build_kernel ()
 	cd $src_folder/linux
 	ARCH=nds32 CROSS_COMPILE=nds32le-linux- make defconfig
 	sed -ir "s#CONFIG_INITRAMFS_SOURCE=\"\"#CONFIG_INITRAMFS_SOURCE=\"$rootfs_folder ${rootfs_folder}/dev/initramfs.devnodes\"#" .config;
+	sed -ir "s#CONFIG_NDS32_BUILTIN_DTB=\"\"#CONFIG_NDS32_BUILTIN_DTB=\"ae3xx\"#" .config;
 	ARCH=nds32 CROSS_COMPILE=nds32le-linux- make olddefconfig
 	ARCH=nds32 CROSS_COMPILE=nds32le-linux- make -j8
 }
