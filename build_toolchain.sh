@@ -299,12 +299,21 @@ build_final_gcc ()
 	CXXFLAGS_FOR_TARGET="-O2 -g" \
 	LDFLAGS_FOR_TARGET=
 
+	if [ ! -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
+		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
+		sudo cp crtbeginT.o crtbeginT.orig.o
+		sudo cp crtbeginS.o crtbeginT.o
+	fi
 	PATH=$toolchain_folder/bin:$PATH \
-	make -j8
+	make -j8 SHARED=0 CFLAGS='-static -std=gnu99 -static-libgcc -static-libstdc++ -fPIC'
 
 	PATH=$toolchain_folder/bin:$PATH \
 	make install
-
+	if [ ! -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
+		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
+		sudo cp crtbeginT.orig.o crtbeginT.o
+		sudo rm crtbeginT.orig.o
+	fi
 
 	# Copy all shared library which is created by gcc to sysroot folder
 	find "$toolchain_folder"/nds32le-linux/lib -name "*.so*" \
