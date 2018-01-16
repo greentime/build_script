@@ -44,8 +44,18 @@ script:
  # will get confused.
  #
  # Exit code 129 means warnings only.
- - echo "script"
+ - echo "Build toolchain"
  - sh -x ./build_toolchain.sh
+ - ret=$?;
+   if [[ $ret -ne 0 && $ret -ne 129 ]]; then
+     exit $ret;
+   fi;
+ - echo "Build rootfs"
+ - sh -x ./build_rootfs.sh
+ - ret=$?;
+   if [[ $ret -ne 0 && $ret -ne 129 ]]; then
+     exit $ret;
+   fi;
 
 matrix:
   include:
