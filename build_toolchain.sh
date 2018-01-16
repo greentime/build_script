@@ -111,6 +111,7 @@ build_bootstrap_gcc ()
 		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
 		sudo cp crtbeginT.o crtbeginT.orig.o
 		sudo cp crtbeginS.o crtbeginT.o
+		cd -
 	fi
 	CFLAGS="-O0 -g3" CXXFLAGS="-O0 -g3" \
 	make -j8 all-gcc
@@ -127,6 +128,7 @@ build_bootstrap_gcc ()
 		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
 		sudo cp crtbeginT.orig.o crtbeginT.o
 		sudo rm crtbeginT.orig.o
+		cd -
 	fi
 	cd $work_folder
 }
