@@ -56,6 +56,13 @@ script:
    if [[ $ret -ne 0 && $ret -ne 129 ]]; then
      exit $ret;
    fi;
+ - echo "Build kernel"
+ - sh -x ./build_kernel.sh
+ - ret=$?;
+   if [[ $ret -ne 0 && $ret -ne 129 ]]; then
+     exit $ret;
+   fi;
+
 
 matrix:
   include:
