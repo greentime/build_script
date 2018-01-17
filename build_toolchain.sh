@@ -107,12 +107,6 @@ build_bootstrap_gcc ()
 	CXXFLAGS_FOR_TARGET="-O2 -g" \
 	LDFLAGS_FOR_TARGET=
 	
-	if [ -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
-		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
-		sudo cp crtbeginT.o crtbeginT.orig.o
-		sudo cp crtbeginS.o crtbeginT.o
-		cd -
-	fi
 	CFLAGS="-O0 -g3" CXXFLAGS="-O0 -g3" \
 	make -j8 all-gcc
 	
@@ -124,12 +118,6 @@ build_bootstrap_gcc ()
 	make unwind.h
 	make install-unwind_h
 
-	if [ -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
-		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
-		sudo cp crtbeginT.orig.o crtbeginT.o
-		sudo rm crtbeginT.orig.o
-		cd -
-	fi
 	cd $work_folder
 }
 #---------
@@ -311,21 +299,11 @@ build_final_gcc ()
 	CXXFLAGS_FOR_TARGET="-O2 -g" \
 	LDFLAGS_FOR_TARGET=
 
-	if [ -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
-		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
-		sudo cp crtbeginT.o crtbeginT.orig.o
-		sudo cp crtbeginS.o crtbeginT.o
-	fi
 	PATH=$toolchain_folder/bin:$PATH \
 	make -j8 SHARED=0 CFLAGS='-static -std=gnu99 -static-libgcc -static-libstdc++ -fPIC'
 
 	PATH=$toolchain_folder/bin:$PATH \
 	make install
-	if [ -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
-		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
-		sudo cp crtbeginT.orig.o crtbeginT.o
-		sudo rm crtbeginT.orig.o
-	fi
 
 	# Copy all shared library which is created by gcc to sysroot folder
 	find "$toolchain_folder"/nds32le-linux/lib -name "*.so*" \
@@ -333,7 +311,34 @@ build_final_gcc ()
 	
 	cd $work_folder
 }
+
+#----------
+# Save original crtbeginT.o
+#----------
+save_crtbegin ()
+{
+	if [ -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
+		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
+		sudo cp crtbeginT.o crtbeginT.orig.o
+		sudo cp crtbeginS.o crtbeginT.o
+		cd -
+	fi
+}
+
+#----------
+# Restore original crtbeginT.o
+#----------
+restore_crtbegin ()
+{
+	if [ -d "/usr/lib/gcc/x86_64-linux-gnu/4.8" ];then
+		cd /usr/lib/gcc/x86_64-linux-gnu/4.8
+		sudo cp crtbeginT.orig.o crtbeginT.o
+		sudo rm crtbeginT.orig.o
+		cd -
+	fi
+}
 src_clone
+save_crtbegin
 clean_build
 build_binutils
 build_bootstrap_gcc
@@ -342,3 +347,4 @@ build_glibc_headers
 build_libgcc
 build_glibc
 build_final_gcc
+restore_crtbegin
