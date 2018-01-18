@@ -27,6 +27,8 @@ addons:
     - wget
     - device-tree-compiler
     - texinfo
+    - zip
+    - unzip
 
 install:
  # Clone uboot-test-hooks
@@ -45,8 +47,8 @@ script:
  # will get confused.
  #
  # Exit code 129 means warnings only.
- - echo "Build toolchain"
- - sh -x ./build_toolchain.sh
+ - echo "Get toolchain"
+ - sh -x ./get_toolchain.sh
  - echo $?
  - echo "Build rootfs"
  - sh -x ./build_rootfs.sh
