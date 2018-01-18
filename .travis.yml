@@ -49,13 +49,10 @@ script:
  # Exit code 129 means warnings only.
  - echo "Get toolchain"
  - sh -x ./get_toolchain.sh
- - echo $?
  - echo "Build rootfs"
  - sh -x ./build_rootfs.sh
- - echo $?
  - echo "Build kernel"
  - sh -x ./build_kernel.sh
- - echo $?
 
 matrix:
   include:
