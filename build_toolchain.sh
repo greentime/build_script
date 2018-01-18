@@ -57,6 +57,7 @@ build_binutils ()
 	--with-arch=v3 \
 	--disable-werror \
 	--disable-nls \
+	LDFLAGS=--static \
 	--with-sysroot=$toolchain_folder/nds32le-linux/sysroot
 	
 	
